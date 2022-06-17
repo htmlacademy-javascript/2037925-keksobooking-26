@@ -29,21 +29,7 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const PICTURES = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10'
-];
-
 const picturesNotUsed = [];
-
 
 const SIMILAR_OBJECT_COUNT = 10;
 
@@ -65,11 +51,11 @@ const createObject = () => {
       checkin: getRandomArrayElement(CHECKINS_CHECKOUTS),
       checkout: getRandomArrayElement(CHECKINS_CHECKOUTS),
       features: [
-        getArray(FEATURES)
+        FEATURES.slice(getRandomPositiveInteger(0, FEATURES.length))
       ],
       description: 'Описание помещения',
       photos: [
-        getArray(PHOTOS)
+        PHOTOS.slice(getRandomPositiveInteger(0, PHOTOS.length))
       ],
     },
     location: {
@@ -79,27 +65,14 @@ const createObject = () => {
   };
 };
 
-
-function getArray (arr) {
-  const maxLength = arr.length;
-  const lengthOfArray = getRandomPositiveInteger(1, maxLength);
-  const array = [];
-
-  while (array.length < lengthOfArray) {
-    const indexOfEl = getRandomPositiveInteger(0, maxLength - 1);
-    const el = arr[indexOfEl];
-
-    if (!array.includes(el)) {
-      array.push(el);
-    }
-  }
-  return array;
-}
-
 function getRandomPicture() {
   if (picturesNotUsed.length === 0) {
-    for (let i = 0; i < PICTURES.length; ++i) {
-      picturesNotUsed.push(PICTURES[i]);
+    for (let i = 0; i < SIMILAR_OBJECT_COUNT + 1; ++i) {
+      if (i !== 0 && i < 10) {
+        picturesNotUsed.push(`0${i}`);
+      } else if (i !== 0) {
+        picturesNotUsed.push(i);
+      }
     }
   }
 
@@ -111,7 +84,6 @@ function getRandomPicture() {
   return id;
 }
 
-// eslint-disable-next-line no-unused-vars
 const createObjects = () => Array.from({length: SIMILAR_OBJECT_COUNT}, createObject);
 
 export {createObjects};
