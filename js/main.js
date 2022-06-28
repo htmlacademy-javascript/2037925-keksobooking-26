@@ -1,3 +1,2 @@
-import {createObjects} from './data.js';
-
-createObjects();
+import {declarationArray} from './data.js';
+import './popup.js';

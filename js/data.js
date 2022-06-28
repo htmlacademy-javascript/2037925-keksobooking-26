@@ -1,4 +1,6 @@
-import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement} from '.util.js';
+import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement} from './util.js';
+
+const MAX_ADS_COUNT = 10;
 
 const TYPES = [
   'palace',
@@ -29,61 +31,69 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const picturesNotUsed = [];
+const latitude = {
+  min: 35.65000,
+  max: 35.70000,
+};
 
-const SIMILAR_OBJECT_COUNT = 10;
+const longitude = {
+  min: 139.70000,
+  max: 139.80000,
+};
 
-const createObject = () => {
-  const randomLat = getRandomPositiveFloat(35.65000, 35.70000);
-  const randomLng = getRandomPositiveFloat(139.70000, 139.80000);
+const price = {
+  min: 0,
+  max: 10,
+};
+
+const rooms = {
+  min: 0,
+  max: 10,
+};
+
+const guests = {
+  min: 0,
+  max: 10,
+};
+
+const createObj = (id) => {
+  const lat = getRandomPositiveFloat(latitude.min, latitude.max);
+  const lng = getRandomPositiveFloat(longitude.min, longitude.max);
 
   return {
     author: {
-      avatar: `img/avatars/user${getRandomPicture()}.png`
+      avatar: `img/avatars/user${String(id).padStart(2, '0')}.png`
     },
     offer: {
       title: 'Объявление',
-      address: `${randomLat}, ${randomLng}`,
-      price: getRandomPositiveInteger(0, 10),
+      address: `${lat}, ${lng}`,
+      price: getRandomPositiveInteger(price.min, price.max),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomPositiveInteger(0, 10),
-      guests: getRandomPositiveInteger(0, 10),
+      rooms: getRandomPositiveInteger(rooms.min, rooms.max),
+      guests: getRandomPositiveInteger(guests.min, guests.max),
       checkin: getRandomArrayElement(CHECKINS_CHECKOUTS),
       checkout: getRandomArrayElement(CHECKINS_CHECKOUTS),
-      features: [
-        FEATURES.slice(getRandomPositiveInteger(0, FEATURES.length))
-      ],
+      features:
+        FEATURES.slice(0, getRandomPositiveInteger(1, FEATURES.length)),
       description: 'Описание помещения',
-      photos: [
-        PHOTOS.slice(getRandomPositiveInteger(0, PHOTOS.length))
-      ],
+      photos:
+        PHOTOS.slice(0, getRandomPositiveInteger(1, PHOTOS.length)),
     },
     location: {
-      lat: randomLat,
-      lng: randomLng,
+      lat,
+      lng,
     }
   };
 };
 
-function getRandomPicture() {
-  if (picturesNotUsed.length === 0) {
-    for (let i = 0; i < SIMILAR_OBJECT_COUNT + 1; ++i) {
-      if (i !== 0 && i < 10) {
-        picturesNotUsed.push(`0${i}`);
-      } else if (i !== 0) {
-        picturesNotUsed.push(i);
-      }
-    }
-  }
+const createObjects = (amount) =>
+  Array.from(
+    {length: amount + 1},
+    (_, index) => createObj(index));
 
-  const index = Math.floor(Math.random() * picturesNotUsed.length);
-  const id =  picturesNotUsed[index];
 
-  picturesNotUsed.splice(index, 1);
+const declarationArray = createObjects(MAX_ADS_COUNT);
 
-  return id;
-}
+declarationArray.shift();
 
-const createObjects = () => Array.from({length: SIMILAR_OBJECT_COUNT}, createObject);
-
-export {createObjects};
+export {declarationArray};
