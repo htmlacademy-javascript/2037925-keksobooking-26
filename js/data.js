@@ -2,13 +2,13 @@ import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement}
 
 const MAX_ADS_COUNT = 10;
 
-const TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel'
-];
+const collectionOfTypes = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель'
+};
 
 const CHECKINS_CHECKOUTS = [
   '12:00',
@@ -62,13 +62,13 @@ const createObj = (id) => {
 
   return {
     author: {
-      avatar: `img/avatars/user${String(id).padStart(2, '0')}.png`
+      avatar: `img/avatars/user${String(id + 1).padStart(2, '0')}.png`
     },
     offer: {
       title: 'Объявление',
       address: `${lat}, ${lng}`,
       price: getRandomPositiveInteger(price.min, price.max),
-      type: getRandomArrayElement(TYPES),
+      type: getRandomArrayElement(Object.values(collectionOfTypes)),
       rooms: getRandomPositiveInteger(rooms.min, rooms.max),
       guests: getRandomPositiveInteger(guests.min, guests.max),
       checkin: getRandomArrayElement(CHECKINS_CHECKOUTS),
@@ -88,12 +88,10 @@ const createObj = (id) => {
 
 const createObjects = (amount) =>
   Array.from(
-    {length: amount + 1},
+    {length: amount},
     (_, index) => createObj(index));
 
 
-const declarationArray = createObjects(MAX_ADS_COUNT);
+const offers = createObjects(MAX_ADS_COUNT);
 
-declarationArray.shift();
-
-export {declarationArray};
+export {offers};
