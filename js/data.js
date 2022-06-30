@@ -86,12 +86,12 @@ const createObj = (id) => {
   };
 };
 
-const createObjects = (amount) =>
+const createArray = (amount) =>
   Array.from(
     {length: amount},
     (_, index) => createObj(index));
 
 
-const offers = createObjects(MAX_ADS_COUNT);
+const offers = createArray(MAX_ADS_COUNT);
 
 export {offers};
