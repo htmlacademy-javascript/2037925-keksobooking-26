@@ -1,12 +1,14 @@
-import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement} from '.util.js';
+import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement} from './util.js';
 
-const TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel'
-];
+const MAX_ADS_COUNT = 10;
+
+const collectionOfTypes = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель'
+};
 
 const CHECKINS_CHECKOUTS = [
   '12:00',
@@ -29,89 +31,67 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const PICTURES = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10'
-];
+const latitude = {
+  min: 35.65000,
+  max: 35.70000,
+};
 
-const picturesNotUsed = [];
+const longitude = {
+  min: 139.70000,
+  max: 139.80000,
+};
 
+const price = {
+  min: 0,
+  max: 10,
+};
 
-const SIMILAR_OBJECT_COUNT = 10;
+const rooms = {
+  min: 0,
+  max: 10,
+};
 
-const createObject = () => {
-  const randomLat = getRandomPositiveFloat(35.65000, 35.70000);
-  const randomLng = getRandomPositiveFloat(139.70000, 139.80000);
+const guests = {
+  min: 0,
+  max: 10,
+};
+
+const createObj = (id) => {
+  const lat = getRandomPositiveFloat(latitude.min, latitude.max);
+  const lng = getRandomPositiveFloat(longitude.min, longitude.max);
 
   return {
     author: {
-      avatar: `img/avatars/user${getRandomPicture()}.png`
+      avatar: `img/avatars/user${String(id + 1).padStart(2, '0')}.png`
     },
     offer: {
       title: 'Объявление',
-      address: `${randomLat}, ${randomLng}`,
-      price: getRandomPositiveInteger(0, 10),
-      type: getRandomArrayElement(TYPES),
-      rooms: getRandomPositiveInteger(0, 10),
-      guests: getRandomPositiveInteger(0, 10),
+      address: `${lat}, ${lng}`,
+      price: getRandomPositiveInteger(price.min, price.max),
+      type: getRandomArrayElement(Object.values(collectionOfTypes)),
+      rooms: getRandomPositiveInteger(rooms.min, rooms.max),
+      guests: getRandomPositiveInteger(guests.min, guests.max),
       checkin: getRandomArrayElement(CHECKINS_CHECKOUTS),
       checkout: getRandomArrayElement(CHECKINS_CHECKOUTS),
-      features: [
-        getArray(FEATURES)
-      ],
+      features:
+        FEATURES.slice(0, getRandomPositiveInteger(1, FEATURES.length)),
       description: 'Описание помещения',
-      photos: [
-        getArray(PHOTOS)
-      ],
+      photos:
+        PHOTOS.slice(0, getRandomPositiveInteger(1, PHOTOS.length)),
     },
     location: {
-      lat: randomLat,
-      lng: randomLng,
+      lat,
+      lng,
     }
   };
 };
 
+const createArray = (amount) =>
+  Array.from(
+    {length: amount},
+    (_, index) => createObj(index));
 
-function getArray (arr) {
-  const maxLength = arr.length;
-  const lengthOfArray = getRandomPositiveInteger(1, maxLength);
-  const array = [];
 
-  while (array.length < lengthOfArray) {
-    const indexOfEl = getRandomPositiveInteger(0, maxLength - 1);
-    const el = arr[indexOfEl];
+const offers = createArray(MAX_ADS_COUNT);
 
-    if (!array.includes(el)) {
-      array.push(el);
-    }
-  }
-  return array;
-}
-
-function getRandomPicture() {
-  if (picturesNotUsed.length === 0) {
-    for (let i = 0; i < PICTURES.length; ++i) {
-      picturesNotUsed.push(PICTURES[i]);
-    }
-  }
-
-  const index = Math.floor(Math.random() * picturesNotUsed.length);
-  const id =  picturesNotUsed[index];
-
-  picturesNotUsed.splice(index, 1);
-
-  return id;
-}
-
-// eslint-disable-next-line no-unused-vars
-const createObjects = () => Array.from({length: SIMILAR_OBJECT_COUNT}, createObject);
-
-export {createObjects};
+export {offers};
