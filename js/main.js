@@ -1,3 +1,3 @@
 import './data.js';
 import './popup.js';
-import './form-activation';
+import './form-activation.js';
