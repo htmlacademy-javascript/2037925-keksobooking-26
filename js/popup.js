@@ -44,9 +44,7 @@ function insertOffer (offer) {
   cardList.appendChild(offerElement);
 }
 
-
 offers.forEach((offer) => {
   insertOffer(offer);
 });
-
 

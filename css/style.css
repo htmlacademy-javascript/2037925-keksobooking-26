@@ -1035,3 +1035,21 @@ fieldset {
 .hidden {
   display: none;
 }
+
+/*
+Сообщения о валидации
+*/
+
+.ad-form__error {
+  display: block;
+  font-size: 0.85em;
+  color: #c00;
+}
+
+.ad-form__element--invalid > input {
+  border-color: #c00;
+}
+
+.ad-form__element--invalid > select {
+  border-color: #c00;
+}
