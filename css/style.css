@@ -1046,10 +1046,7 @@ fieldset {
   color: #c00;
 }
 
-.ad-form__element--invalid > input {
-  border-color: #c00;
-}
-
+.ad-form__element--invalid > input,
 .ad-form__element--invalid > select {
   border-color: #c00;
 }
