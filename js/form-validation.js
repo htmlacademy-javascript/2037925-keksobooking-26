@@ -3,6 +3,8 @@ const price = offerForm.querySelector('#price');
 const typeOfHousing = document.querySelector('#type');
 const roomNumber = offerForm.querySelector('#room_number');
 const capacityGuests = offerForm.querySelector('#capacity');
+const timeIn = offerForm.querySelector('#timein');
+const timeOut = offerForm.querySelector('#timeout');
 
 const pristine = new Pristine(offerForm, {
   classTo: 'ad-form__element',
@@ -86,6 +88,22 @@ function getCapacityErrorMessage () {
 
 pristine.addValidator(roomNumber, validateCapacity);
 pristine.addValidator(capacityGuests, validateCapacity, getCapacityErrorMessage);
+
+timeIn.addEventListener('change', () => {
+  timeOut.value = timeIn.value;
+  pristine.validate();
+});
+
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
+  pristine.validate();
+});
+
+function validateTime () {
+  return  timeIn.value === timeOut.value;
+}
+
+pristine.addValidator(timeOut, validateTime);
 
 offerForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
