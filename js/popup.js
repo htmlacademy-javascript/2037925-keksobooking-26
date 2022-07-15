@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {offers} from './data.js';
 
 const cardList = document.querySelector('#map-canvas');
@@ -42,9 +43,14 @@ function insertOffer (offer) {
   offerElement.querySelector('.popup__avatar').src = offer.author.avatar;
 
   cardList.appendChild(offerElement);
+
+  return offerElement;
 }
 
+/*
 offers.forEach((offer) => {
   insertOffer(offer);
 });
+*/
 
+export {insertOffer};

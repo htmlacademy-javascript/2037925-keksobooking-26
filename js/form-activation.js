@@ -35,3 +35,5 @@ function unlockForm () {
 }
 
 unlockForm();
+
+export {unlockForm};

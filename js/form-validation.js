@@ -1,10 +1,11 @@
 const offerForm = document.querySelector('.ad-form');
-const price = offerForm.querySelector('#price');
 const typeOfHousing = document.querySelector('#type');
 const roomNumber = offerForm.querySelector('#room_number');
 const capacityGuests = offerForm.querySelector('#capacity');
 const timeIn = offerForm.querySelector('#timein');
 const timeOut = offerForm.querySelector('#timeout');
+const priceSlider = document.querySelector('.ad-form__slider');
+const price = offerForm.querySelector('#price');
 
 const pristine = new Pristine(offerForm, {
   classTo: 'ad-form__element',
@@ -108,4 +109,18 @@ pristine.addValidator(timeOut, validateTime);
 offerForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
+});
+
+noUiSlider.create(priceSlider, {
+  range: {
+    min: Number(price.min),
+    max: Number(price.max),
+  },
+  start: Number(minPrice[typeOfHousing.value]),
+  step:10,
+  connect:'lower',
+});
+
+priceSlider.noUiSlider.on('update', () => {
+  price.value = priceSlider.noUiSlider.get();
 });
