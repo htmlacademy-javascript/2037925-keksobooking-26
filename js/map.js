@@ -3,12 +3,12 @@ import {insertOffer} from './popup.js';
 import {offers} from './data.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
+const addressValue = document.querySelector('#address');
 const defaultLat = 35.6895;
 const defaultLng = 139.692;
-const scaleGlobal = 12;
-const scaleLocal = 12;
+const defaultScale= 12;
 
-document.getElementById('address').value = `LatLng(${defaultLat}, ${defaultLng})`;
+addressValue.value = `${defaultLat}, ${defaultLng}`;
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -17,7 +17,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: defaultLat,
     lng: defaultLng,
-  }, scaleGlobal);
+  }, defaultScale);
 
 const tiles = L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -56,7 +56,7 @@ mainMarker.on('moveend', (evt) => {
   const afterPoint = 4;
   const lat = evt.target.getLatLng().lat.toFixed(afterPoint);
   const lng = evt.target.getLatLng().lng.toFixed(afterPoint);
-  document.querySelector('#address').value = `LatLng(${lat}, ${lng})`;
+  addressValue.value = `${lat}, ${lng}`;
 });
 
 resetButton.addEventListener('click', () => {
@@ -67,7 +67,7 @@ resetButton.addEventListener('click', () => {
   map.setView({
     lat: defaultLat,
     lng: defaultLng,
-  }, scaleLocal);
+  }, defaultScale);
 });
 
 offers.forEach((offer)=>{
