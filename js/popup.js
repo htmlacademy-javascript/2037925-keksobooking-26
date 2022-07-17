@@ -47,10 +47,4 @@ function insertOffer (offer) {
   return offerElement;
 }
 
-/*
-offers.forEach((offer) => {
-  insertOffer(offer);
-});
-*/
-
 export {insertOffer};

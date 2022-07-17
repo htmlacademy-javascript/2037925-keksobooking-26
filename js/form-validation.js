@@ -117,7 +117,7 @@ noUiSlider.create(priceSlider, {
     max: Number(price.max),
   },
   start: Number(minPrice[typeOfHousing.value]),
-  step:10,
+  step: 1,
   connect:'lower',
 });
 

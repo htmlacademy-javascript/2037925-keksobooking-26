@@ -3,18 +3,20 @@ import {insertOffer} from './popup.js';
 import {offers} from './data.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
-const tokioLatDefault = 35.6895;
-const tokioLngDefault = 139.692;
-const scaleGlobal = 10;
-const scaleLocal = 18;
+const defaultLat = 35.6895;
+const defaultLng = 139.692;
+const scaleGlobal = 12;
+const scaleLocal = 12;
+
+document.getElementById('address').value = `LatLng(${defaultLat}, ${defaultLng})`;
 
 const map = L.map('map-canvas')
   .on('load', () => {
     unlockForm();
   })
   .setView({
-    lat: tokioLatDefault,
-    lng: tokioLngDefault,
+    lat: defaultLat,
+    lng: defaultLng,
   }, scaleGlobal);
 
 const tiles = L.tileLayer(
@@ -37,8 +39,8 @@ const pinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: tokioLatDefault,
-    lng: tokioLngDefault,
+    lat: defaultLat,
+    lng: defaultLng,
   },
   {
     draggable: true,
@@ -59,12 +61,12 @@ mainMarker.on('moveend', (evt) => {
 
 resetButton.addEventListener('click', () => {
   mainMarker.setLatLng({
-    lat: tokioLatDefault,
-    lng: tokioLngDefault,
+    lat: defaultLat,
+    lng: defaultLng,
   });
   map.setView({
-    lat: tokioLatDefault,
-    lng: tokioLngDefault,
+    lat: defaultLat,
+    lng: defaultLng,
   }, scaleLocal);
 });
 
