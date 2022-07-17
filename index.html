@@ -5,6 +5,8 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="nouislider/nouislider.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin=""/>
   <title>Кексобукинг</title>
 </head>
 <body>
@@ -91,7 +93,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" readonly required>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -105,7 +107,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="1000" data-pristine-required-message="Заполните поле">
+          <input class ="ad-form__value" id="price" name="price" type="number" placeholder="1000" data-pristine-required-message="Заполните поле" min="0" max="100000">
           <div class="ad-form__slider"></div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
@@ -229,6 +231,8 @@
     </div>
   </template>
 
+  <script src="nouislider/nouislider.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
   <script src="pristine/pristine.min.js"></script>
   <script src="js/main.js" type="module"></script>
 </body>
