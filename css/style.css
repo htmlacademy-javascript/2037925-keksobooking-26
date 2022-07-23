@@ -1050,3 +1050,15 @@ fieldset {
 .ad-form__element--invalid > select {
   border-color: #c00;
 }
+
+.alert {
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 10px 3px;
+  font-size: 30px;
+  text-align: center;
+  background-color: red;
+};

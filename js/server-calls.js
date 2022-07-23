@@ -4,19 +4,17 @@ const getData = (onSuccess) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => {
       if (response.ok) {
-        return response;
-      } else {
-        throw new Error(`${response.status} — ${response.statusText}`);
+        return response.json();
       }
+      throw new Error(`${response.status} — ${response.statusText}`);
     })
-    .then((response) => response.json())
     .then((data) => {
       onSuccess(data);
     })
     .catch((error) => showAlert(`Ошибка загрузки данных, ${error}`));
 };
 
-const sendData= (onSuccess, onFail, body) => {
+const sendData = (onSuccess, body) => {
   fetch('https://26.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
@@ -26,13 +24,11 @@ const sendData= (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-      } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        return;
       }
+      throw new Error(`${response.status} — ${response.statusText}`);
     })
-    .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте еще раз');
-    });
+    .catch((error) => showAlert(`Ошибка загрузки данных, ${error}`));
 };
 
 export {getData, sendData};
