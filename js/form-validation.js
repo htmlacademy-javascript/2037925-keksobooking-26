@@ -1,4 +1,3 @@
-import {showAlert} from './util.js';
 import {sendData} from './server-calls.js';
 
 const offerForm = document.querySelector('.ad-form');

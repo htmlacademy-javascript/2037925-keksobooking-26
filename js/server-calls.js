@@ -11,7 +11,7 @@ const getData = (onSuccess) => {
     .then((data) => {
       onSuccess(data);
     })
-    .catch((error) => showAlert(`Ошибка загрузки данных, ${error}`));
+    .catch((error) => showAlert(`Ошибка отправки данных, ${error}`));
 };
 
 const sendData = (onSuccess, body) => {
