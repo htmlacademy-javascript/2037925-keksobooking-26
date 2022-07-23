@@ -1,3 +1,5 @@
+import {sendData} from './server-calls.js';
+
 const offerForm = document.querySelector('.ad-form');
 const typeOfHousing = document.querySelector('#type');
 const roomNumber = offerForm.querySelector('#room_number');
@@ -6,6 +8,13 @@ const timeIn = offerForm.querySelector('#timein');
 const timeOut = offerForm.querySelector('#timeout');
 const priceSlider = document.querySelector('.ad-form__slider');
 const price = offerForm.querySelector('#price');
+const body = document.querySelector('body');
+const submitButton = offerForm.querySelector('.ad-form__submit');
+const success = document.querySelector('#success')
+  .content.querySelector('.success');
+const error = document.querySelector('#error')
+  .content.querySelector('.error');
+const buttonError = error.querySelector('.error__button');
 
 const pristine = new Pristine(offerForm, {
   classTo: 'ad-form__element',
@@ -106,11 +115,6 @@ function validateTime () {
 
 pristine.addValidator(timeOut, validateTime);
 
-offerForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
 noUiSlider.create(priceSlider, {
   range: {
     min: Number(price.min),
@@ -124,3 +128,57 @@ noUiSlider.create(priceSlider, {
 priceSlider.noUiSlider.on('update', () => {
   price.value = priceSlider.noUiSlider.get();
 });
+
+const getSuccessMessage = () => {
+  const successMessage = success.cloneNode(true);
+  body.appendChild(successMessage);
+  document.addEventListener('click', () => {
+    successMessage.remove();
+  });
+  document.addEventListener('keydown',(evt) => {
+    if (evt.key === 'Escape') {
+      successMessage.remove();
+    }
+  });
+  offerForm.reset();
+  submitButton.disabled = false;
+};
+
+// eslint-disable-next-line no-unused-vars
+const getErrorMessage = () => {
+  const errorMessage = error.cloneNode(true);
+
+  body.appendChild(errorMessage);
+
+  document.addEventListener('click', () => {
+    errorMessage.remove();
+  });
+  document.addEventListener('keydown',(evt) => {
+    if (evt.key === 'Escape') {
+      errorMessage.remove();
+    }
+  });
+  buttonError.querySelector('click', () => {
+    errorMessage.remove();
+  });
+  submitButton.disabled = false;
+};
+
+const setUserFormSubmit = (onSuccess, onError) => {
+  offerForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      sendData(
+        onSuccess(),
+        new FormData(evt.target),
+      );
+      return;
+    }
+    onError();
+  });
+};
+
+
+export {setUserFormSubmit, getSuccessMessage, getErrorMessage};
