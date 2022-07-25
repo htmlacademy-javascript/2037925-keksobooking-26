@@ -16,23 +16,6 @@ const error = document.querySelector('#error')
   .content.querySelector('.error');
 const buttonError = error.querySelector('.error__button');
 
-const pristine = new Pristine(offerForm, {
-  classTo: 'ad-form__element',
-  errorClass: 'ad-form__element--invalid',
-  errorTextParent: 'ad-form__element',
-  errorTextClass: 'ad-form__error'
-}, false);
-
-function validateTitleNotice (value) {
-  return value.length >= 30 && value.length <= 100;
-}
-
-pristine.addValidator (
-  offerForm.querySelector('#title'),
-  validateTitleNotice,
-  'От 30 до 100 символов'
-);
-
 const minPrice = {
   palace: 10000,
   flat: 1000,
@@ -42,22 +25,6 @@ const minPrice = {
 };
 
 const maxPrice = 100000;
-
-typeOfHousing.addEventListener('change', () => {
-  price.placeholder = minPrice[typeOfHousing.value];
-  price.min = minPrice[typeOfHousing.value];
-  price.value = '';
-});
-
-function validatePrice (value) {
-  return value <= maxPrice && value >= minPrice[typeOfHousing.value];
-}
-
-function getPriceErrorMessage (){
-  return `Не менее ${minPrice[typeOfHousing.value]} и не более ${maxPrice}`;
-}
-
-pristine.addValidator(price, validatePrice, getPriceErrorMessage);
 
 const possibleCapacity = {
   1:['1'],
@@ -88,16 +55,34 @@ const words = {
   }
 };
 
-function validateCapacity () {
-  return possibleCapacity[roomNumber.value].includes(capacityGuests.value);
-}
+const pristine = new Pristine(offerForm, {
+  classTo: 'ad-form__element',
+  errorClass: 'ad-form__element--invalid',
+  errorTextParent: 'ad-form__element',
+  errorTextClass: 'ad-form__error'
+}, false);
 
-function getCapacityErrorMessage () {
-  return `${roomNumber.value} ${words[roomNumber.value].room} ${words[roomNumber.value].guest}`;
-}
+const validateTitleNotice = (value) => value.length >= 30 && value.length <= 100;
 
-pristine.addValidator(roomNumber, validateCapacity);
-pristine.addValidator(capacityGuests, validateCapacity, getCapacityErrorMessage);
+pristine.addValidator (
+  offerForm.querySelector('#title'),
+  validateTitleNotice,
+  'От 30 до 100 символов'
+);
+
+typeOfHousing.addEventListener('change', () => {
+  price.placeholder = minPrice[typeOfHousing.value];
+  price.min = minPrice[typeOfHousing.value];
+  price.value = '';
+});
+
+const validatePrice = (value) => value <= maxPrice && value >= minPrice[typeOfHousing.value];
+
+const getPriceErrorMessage = () => `Не менее ${minPrice[typeOfHousing.value]} и не более ${maxPrice}`;
+
+const validateCapacity = () => possibleCapacity[roomNumber.value].includes(capacityGuests.value);
+
+const getCapacityErrorMessage = () => `${roomNumber.value} ${words[roomNumber.value].room} ${words[roomNumber.value].guest}`;
 
 timeIn.addEventListener('change', () => {
   timeOut.value = timeIn.value;
@@ -109,25 +94,33 @@ timeOut.addEventListener('change', () => {
   pristine.validate();
 });
 
-function validateTime () {
-  return  timeIn.value === timeOut.value;
-}
+const validateTime = () => timeIn.value === timeOut.value;
 
-pristine.addValidator(timeOut, validateTime);
+const runFormValidation = () => {
+  pristine.addValidator(price, validatePrice, getPriceErrorMessage);
+  pristine.addValidator(roomNumber, validateCapacity);
+  pristine.addValidator(capacityGuests, validateCapacity, getCapacityErrorMessage);
+  pristine.addValidator(timeOut, validateTime);
+};
 
-noUiSlider.create(priceSlider, {
-  range: {
-    min: Number(price.min),
-    max: Number(price.max),
-  },
-  start: Number(minPrice[typeOfHousing.value]),
-  step: 1,
-  connect:'lower',
-});
 
-priceSlider.noUiSlider.on('update', () => {
-  price.value = priceSlider.noUiSlider.get();
-});
+const activatePriceSlider = () => {
+  noUiSlider.create(priceSlider, {
+    range: {
+      min: Number(price.min),
+      max: Number(price.max),
+    },
+    start: Number(minPrice[typeOfHousing.value]),
+    step: 1,
+    connect:'lower',
+  });
+
+  priceSlider.noUiSlider.on('update', () => {
+    price.value = priceSlider.noUiSlider.get();
+  });
+};
+
+activatePriceSlider();
 
 const getSuccessMessage = () => {
   const successMessage = success.cloneNode(true);
@@ -144,7 +137,6 @@ const getSuccessMessage = () => {
   submitButton.disabled = false;
 };
 
-// eslint-disable-next-line no-unused-vars
 const getErrorMessage = () => {
   const errorMessage = error.cloneNode(true);
 
@@ -181,4 +173,4 @@ const setUserFormSubmit = (onSuccess, onError) => {
 };
 
 
-export {setUserFormSubmit, getSuccessMessage, getErrorMessage};
+export {runFormValidation, setUserFormSubmit, getSuccessMessage, getErrorMessage};

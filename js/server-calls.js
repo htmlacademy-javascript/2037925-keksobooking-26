@@ -1,4 +1,4 @@
-import {showAlert} from './util.js';
+import {showAlert} from './utils.js';
 
 const getData = (onSuccess) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')

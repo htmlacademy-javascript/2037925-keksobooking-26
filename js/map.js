@@ -1,13 +1,12 @@
 import {unlockForm} from './form-activation.js';
 import {insertOffer} from './popup.js';
 
-const resetButton = document.querySelector('.ad-form__reset');
-const addressValue = document.querySelector('#address');
+const address = document.querySelector('#address');
 const defaultLat = 35.6895;
 const defaultLng = 139.692;
 const defaultScale= 12;
 
-addressValue.value = `${defaultLat}, ${defaultLng}`;
+address.value = `${defaultLat}, ${defaultLng}`;
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -55,19 +54,10 @@ mainMarker.on('moveend', (evt) => {
   const afterPoint = 4;
   const lat = evt.target.getLatLng().lat.toFixed(afterPoint);
   const lng = evt.target.getLatLng().lng.toFixed(afterPoint);
-  addressValue.value = `${lat}, ${lng}`;
+  address.value = `${lat}, ${lng}`;
 });
 
-resetButton.addEventListener('click', () => {
-  mainMarker.setLatLng({
-    lat: defaultLat,
-    lng: defaultLng,
-  });
-  map.setView({
-    lat: defaultLat,
-    lng: defaultLng,
-  }, defaultScale);
-});
+const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (offer) => {
   const marker = L.marker({
@@ -78,7 +68,7 @@ const createMarker = (offer) => {
     icon: pinIcon,
   });
 
-  marker.addTo(map).bindPopup(insertOffer(offer));
+  marker.addTo(markerGroup).bindPopup(insertOffer(offer));
   return marker;
 };
 
@@ -88,4 +78,23 @@ const renderCards = (elements) => {
   });
 };
 
-export {renderCards};
+const clearMarkers = () => {
+  markerGroup.clearLayers();
+};
+
+const resetMap = () => {
+  address.value = `${defaultLat}, ${defaultLng}`;
+
+  mainMarker.setLatLng({
+    lat: defaultLat,
+    lng: defaultLng,
+  });
+  map.setView({
+    lat: defaultLat,
+    lng: defaultLng,
+  }, defaultScale);
+
+  map.closePopup();
+};
+
+export {renderCards, resetMap, clearMarkers};

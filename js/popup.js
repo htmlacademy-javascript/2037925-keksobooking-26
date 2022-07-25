@@ -9,7 +9,7 @@ const typeOfHousing = {
   hotel: 'Отель'
 };
 
-function insertOffer (offer) {
+const insertOffer = (offer) => {
   const offerElement = template.cloneNode(true);
 
   const availableFeatures = offer.offer.features;
@@ -60,6 +60,6 @@ function insertOffer (offer) {
   cardList.appendChild(offerElement);
 
   return offerElement;
-}
+};
 
 export {insertOffer};
