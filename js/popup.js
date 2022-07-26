@@ -1,6 +1,3 @@
-const cardList = document.querySelector('#map-canvas');
-const template = document.querySelector('#card').content.querySelector('.popup');
-
 const typeOfHousing = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -8,6 +5,9 @@ const typeOfHousing = {
   palace: 'Дворец',
   hotel: 'Отель'
 };
+
+const cardList = document.querySelector('#map-canvas');
+const template = document.querySelector('#card').content.querySelector('.popup');
 
 const insertOffer = (offer) => {
   const offerElement = template.cloneNode(true);

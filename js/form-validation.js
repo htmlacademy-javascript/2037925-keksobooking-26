@@ -1,20 +1,7 @@
 import {sendData} from './server-calls.js';
+import {getErrorMessage, getSuccessMessage} from './message.js';
 
-const offerForm = document.querySelector('.ad-form');
-const typeOfHousing = document.querySelector('#type');
-const roomNumber = offerForm.querySelector('#room_number');
-const capacityGuests = offerForm.querySelector('#capacity');
-const timeIn = offerForm.querySelector('#timein');
-const timeOut = offerForm.querySelector('#timeout');
-const priceSlider = document.querySelector('.ad-form__slider');
-const price = offerForm.querySelector('#price');
-const body = document.querySelector('body');
-const submitButton = offerForm.querySelector('.ad-form__submit');
-const success = document.querySelector('#success')
-  .content.querySelector('.success');
-const error = document.querySelector('#error')
-  .content.querySelector('.error');
-const buttonError = error.querySelector('.error__button');
+const MAX_PRICE = 100000;
 
 const minPrice = {
   palace: 10000,
@@ -23,8 +10,6 @@ const minPrice = {
   bungalow: 0,
   hotel: 3000
 };
-
-const maxPrice = 100000;
 
 const possibleCapacity = {
   1:['1'],
@@ -55,6 +40,15 @@ const words = {
   }
 };
 
+const offerForm = document.querySelector('.ad-form');
+const typeOfHousing = document.querySelector('#type');
+const roomNumber = offerForm.querySelector('#room_number');
+const capacityGuests = offerForm.querySelector('#capacity');
+const timeIn = offerForm.querySelector('#timein');
+const timeOut = offerForm.querySelector('#timeout');
+const priceSlider = document.querySelector('.ad-form__slider');
+const price = offerForm.querySelector('#price');
+
 const pristine = new Pristine(offerForm, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -76,9 +70,9 @@ typeOfHousing.addEventListener('change', () => {
   price.value = '';
 });
 
-const validatePrice = (value) => value <= maxPrice && value >= minPrice[typeOfHousing.value];
+const validatePrice = (value) => value <= MAX_PRICE && value >= minPrice[typeOfHousing.value];
 
-const getPriceErrorMessage = () => `Не менее ${minPrice[typeOfHousing.value]} и не более ${maxPrice}`;
+const getPriceErrorMessage = () => `Не менее ${minPrice[typeOfHousing.value]} и не более ${MAX_PRICE}`;
 
 const validateCapacity = () => possibleCapacity[roomNumber.value].includes(capacityGuests.value);
 
@@ -103,7 +97,6 @@ const runFormValidation = () => {
   pristine.addValidator(timeOut, validateTime);
 };
 
-
 const activatePriceSlider = () => {
   noUiSlider.create(priceSlider, {
     range: {
@@ -122,55 +115,18 @@ const activatePriceSlider = () => {
 
 activatePriceSlider();
 
-const getSuccessMessage = () => {
-  const successMessage = success.cloneNode(true);
-  body.appendChild(successMessage);
-  document.addEventListener('click', () => {
-    successMessage.remove();
-  });
-  document.addEventListener('keydown',(evt) => {
-    if (evt.key === 'Escape') {
-      successMessage.remove();
-    }
-  });
-  offerForm.reset();
-  submitButton.disabled = false;
-};
-
-const getErrorMessage = () => {
-  const errorMessage = error.cloneNode(true);
-
-  body.appendChild(errorMessage);
-
-  document.addEventListener('click', () => {
-    errorMessage.remove();
-  });
-  document.addEventListener('keydown',(evt) => {
-    if (evt.key === 'Escape') {
-      errorMessage.remove();
-    }
-  });
-  buttonError.querySelector('click', () => {
-    errorMessage.remove();
-  });
-  submitButton.disabled = false;
-};
-
-const setUserFormSubmit = (onSuccess, onError) => {
+const setUserFormSubmit = () => {
   offerForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
-
     if (isValid) {
       sendData(
-        onSuccess(),
+        getSuccessMessage,
+        getErrorMessage,
         new FormData(evt.target),
       );
-      return;
     }
-    onError();
   });
 };
 
-
-export {runFormValidation, setUserFormSubmit, getSuccessMessage, getErrorMessage};
+export {runFormValidation, setUserFormSubmit};

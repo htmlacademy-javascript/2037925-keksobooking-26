@@ -4,7 +4,7 @@ import {insertOffer} from './popup.js';
 const address = document.querySelector('#address');
 const defaultLat = 35.6895;
 const defaultLng = 139.692;
-const defaultScale= 12;
+const defaultScale = 12;
 
 address.value = `${defaultLat}, ${defaultLng}`;
 
@@ -97,4 +97,4 @@ const resetMap = () => {
   map.closePopup();
 };
 
-export {renderCards, resetMap, clearMarkers};
+export {map, renderCards, resetMap, clearMarkers, defaultLat, defaultLng};

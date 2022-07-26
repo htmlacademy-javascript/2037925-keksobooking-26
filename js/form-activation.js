@@ -34,6 +34,4 @@ const unlockForm = () => {
   }
 };
 
-unlockForm();
-
 export {unlockForm};
