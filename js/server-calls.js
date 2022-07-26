@@ -1,7 +1,8 @@
-import {showAlert} from './util.js';
+const GET_DATA_URL = 'https://26.javascript.pages.academy/keksobooking/data';
+const SEND_DATA_URL = 'https://26.javascript.pages.academy/keksobooking';
 
-const getData = (onSuccess) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
+const getData = (onSuccess, onFail) => {
+  fetch(GET_DATA_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -11,11 +12,11 @@ const getData = (onSuccess) => {
     .then((data) => {
       onSuccess(data);
     })
-    .catch((error) => showAlert(`Ошибка отправки данных, ${error}`));
+    .catch((error) => onFail(error));
 };
 
-const sendData = (onSuccess, body) => {
-  fetch('https://26.javascript.pages.academy/keksobooking',
+const sendData = (onSuccess, onFail, body) => {
+  fetch(SEND_DATA_URL,
     {
       method: 'POST',
       body,
@@ -26,9 +27,9 @@ const sendData = (onSuccess, body) => {
         onSuccess();
         return;
       }
-      throw new Error(`${response.status} — ${response.statusText}`);
+      onFail();
     })
-    .catch((error) => showAlert(`Ошибка загрузки данных, ${error}`));
+    .catch(onFail);
 };
 
 export {getData, sendData};

@@ -3,7 +3,7 @@ const offerFormElements = offerForm.children;
 const mapFilterForm = document.querySelector('.map__filters');
 const mapFilterFormElements = mapFilterForm.children;
 
-function blockForm () {
+const blockForm = () => {
   offerForm.classList.add('ad-form--disabled');
 
   for (const element of offerFormElements) {
@@ -15,12 +15,12 @@ function blockForm () {
   for (const element of mapFilterFormElements){
     element.disabled = true;
   }
-}
+};
 
 blockForm();
 
 
-function unlockForm () {
+const unlockForm = () => {
   offerForm.classList.remove('ad-form--disabled');
 
   for (const element of offerFormElements) {
@@ -32,8 +32,6 @@ function unlockForm () {
   for (const element of mapFilterFormElements){
     element.disabled = false;
   }
-}
-
-unlockForm();
+};
 
 export {unlockForm};
