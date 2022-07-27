@@ -1,7 +1,9 @@
-import {map, defaultLat, defaultLng} from './map.js';
+import {map} from './map.js';
 import {isEscapeKey} from './utils.js';
 
 const ALERT_SHOW_TIME = 5000;
+const DEFAULT_LAT = 35.6895;
+const DEFAULT_LNG = 139.692;
 
 const offerForm = document.querySelector('.ad-form');
 const addressField = document.querySelector('#address');
@@ -39,7 +41,7 @@ const getSuccessMessage = () => {
   document.addEventListener('click', onClickPopUpClose);
   map.closePopup();
   offerForm.reset();
-  addressField.value = `${defaultLat}, ${defaultLng}`;
+  addressField.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
   submitButton.disabled = false;
 };
 

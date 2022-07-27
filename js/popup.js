@@ -6,10 +6,9 @@ const typeOfHousing = {
   hotel: 'Отель'
 };
 
-const cardList = document.querySelector('#map-canvas');
 const template = document.querySelector('#card').content.querySelector('.popup');
 
-const insertOffer = (offer) => {
+const displayOffer = (offer) => {
   const offerElement = template.cloneNode(true);
 
   const availableFeatures = offer.offer.features;
@@ -56,9 +55,7 @@ const insertOffer = (offer) => {
   offerElement.querySelector('.popup__description').textContent = offer.offer.description;
   offerElement.querySelector('.popup__avatar').src = offer.author.avatar;
 
-  cardList.appendChild(offerElement);
-
   return offerElement;
 };
 
-export {insertOffer};
+export {displayOffer};
