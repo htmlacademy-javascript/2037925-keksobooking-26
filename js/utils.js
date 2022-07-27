@@ -10,6 +10,7 @@ const resetForm = (evt) => {
   addFormElement.reset();
   mapFilterForm.reset();
   resetMap();
+
   addressField.value = `${defaultLat}, ${defaultLng}`;
 };
 
@@ -25,4 +26,6 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {debounce};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {debounce, isEscapeKey};

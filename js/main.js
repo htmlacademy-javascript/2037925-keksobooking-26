@@ -1,10 +1,6 @@
 import './popup.js';
 import './form-activation.js';
-import './form-validation.js';
-import './map.js';
-import './server-calls.js';
-import './utils.js';
-import './map-filters.js';
+import {loadAvatar, loadPhoto} from './pictures.js';
 import {mapFilters, getFilteredMap} from './map-filters.js';
 import {getData} from './server-calls.js';
 import {renderCards, clearMarkers} from './map.js';
@@ -26,3 +22,5 @@ getData((offers) => {
 
 setUserFormSubmit();
 runFormValidation();
+loadAvatar();
+loadPhoto();

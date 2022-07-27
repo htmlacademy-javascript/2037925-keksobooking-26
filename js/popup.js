@@ -18,14 +18,13 @@ const insertOffer = (offer) => {
 
   const availablePhotos = offer.offer.photos;
   const photoContainer = offerElement.querySelector('.popup__photos');
-  const photolist = photoContainer.querySelector('.popup__photo');
+  const photoList = photoContainer.querySelector('.popup__photo');
+
+  photoList.remove();
 
   if (!availablePhotos) {
-    photolist.remove();
-  } else {
-    photolist.remove();
     availablePhotos.forEach((picture) => {
-      const photoClone = photolist.cloneNode();
+      const photoClone = photoList.cloneNode();
       photoClone.src = picture;
       photoClone.width = 45;
       photoClone.height = 40;
