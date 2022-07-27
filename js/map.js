@@ -1,21 +1,22 @@
 import {unlockForm} from './form-activation.js';
-import {insertOffer} from './popup.js';
+import {displayOffer} from './popup.js';
+
+const DEFAULT_LAT = 35.6895;
+const DEFAULT_LNG = 139.692;
+const DEFAULT_SCALE = 12;
 
 const address = document.querySelector('#address');
-const defaultLat = 35.6895;
-const defaultLng = 139.692;
-const defaultScale = 12;
 
-address.value = `${defaultLat}, ${defaultLng}`;
+address.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
 
 const map = L.map('map-canvas')
   .on('load', () => {
     unlockForm();
   })
   .setView({
-    lat: defaultLat,
-    lng: defaultLng,
-  }, defaultScale);
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
+  }, DEFAULT_SCALE);
 
 const tiles = L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -37,8 +38,8 @@ const pinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: defaultLat,
-    lng: defaultLng,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   },
   {
     draggable: true,
@@ -68,7 +69,7 @@ const createMarker = (offer) => {
     icon: pinIcon,
   });
 
-  marker.addTo(markerGroup).bindPopup(insertOffer(offer));
+  marker.addTo(markerGroup).bindPopup(displayOffer(offer));
   return marker;
 };
 
@@ -83,18 +84,18 @@ const clearMarkers = () => {
 };
 
 const resetMap = () => {
-  address.value = `${defaultLat}, ${defaultLng}`;
+  address.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
 
   mainMarker.setLatLng({
-    lat: defaultLat,
-    lng: defaultLng,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   });
   map.setView({
-    lat: defaultLat,
-    lng: defaultLng,
-  }, defaultScale);
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
+  }, DEFAULT_SCALE);
 
   map.closePopup();
 };
 
-export {map, renderCards, resetMap, clearMarkers, defaultLat, defaultLng};
+export {map, renderCards, resetMap, clearMarkers, DEFAULT_LAT, DEFAULT_LNG};

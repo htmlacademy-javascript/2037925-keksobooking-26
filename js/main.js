@@ -12,7 +12,7 @@ const MAX_OFFER_COUNT = 10;
 const RERENDER_DELAY = 500;
 
 getData((offers) => {
-  renderCards(offers.slice(0, 10));
+  renderCards(offers.slice(0, MAX_OFFER_COUNT));
 
   mapFilters.addEventListener('change', debounce(() => {
     clearMarkers();
