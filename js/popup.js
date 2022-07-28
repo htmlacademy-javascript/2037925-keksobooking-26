@@ -21,7 +21,7 @@ const displayOffer = (offer) => {
 
   photoList.remove();
 
-  if (!availablePhotos) {
+  if (availablePhotos) {
     availablePhotos.forEach((picture) => {
       const photoClone = photoList.cloneNode();
       photoClone.src = picture;
@@ -35,8 +35,8 @@ const displayOffer = (offer) => {
   if (!availableFeatures) {
     featureContainer.remove();
   } else {
-    featureList.forEach((popupFeatureItem)=>{
-      const isReal = availableFeatures.some((feature)=> popupFeatureItem.classList.contains(`popup__feature--${feature}`));
+    featureList.forEach((popupFeatureItem) => {
+      const isReal = availableFeatures.some((feature) => popupFeatureItem.classList.contains(`popup__feature--${feature}`));
       if (!isReal){
         popupFeatureItem.remove();
       }
