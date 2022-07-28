@@ -43,7 +43,7 @@ const resetForm = (evt) => {
 
 fullResetButton.addEventListener('click', resetForm);
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay) => {
   let timeoutId;
 
   return (...rest) => {
