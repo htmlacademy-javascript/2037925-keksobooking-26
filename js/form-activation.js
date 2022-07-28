@@ -17,8 +17,6 @@ const blockForm = () => {
   }
 };
 
-blockForm();
-
 
 const unlockForm = () => {
   offerForm.classList.remove('ad-form--disabled');
@@ -34,4 +32,4 @@ const unlockForm = () => {
   }
 };
 
-export {unlockForm};
+export {unlockForm, blockForm};

@@ -1,4 +1,3 @@
-import {unlockForm} from './form-activation.js';
 import {displayOffer} from './popup.js';
 
 const DEFAULT_LAT = 35.6895;
@@ -9,14 +8,18 @@ const address = document.querySelector('#address');
 
 address.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    unlockForm();
-  })
-  .setView({
-    lat: DEFAULT_LAT,
-    lng: DEFAULT_LNG,
-  }, DEFAULT_SCALE);
+const map = L.map('map-canvas');
+
+const loadMap = (form) => {
+  map
+    .on('load', () => {//обработчик активации формы
+      form(true);
+    })
+    .setView({
+      lat: DEFAULT_LAT,
+      lng: DEFAULT_LNG,
+    }, DEFAULT_SCALE);
+};
 
 const tiles = L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -98,4 +101,4 @@ const resetMap = () => {
   map.closePopup();
 };
 
-export {map, renderCards, resetMap, clearMarkers, DEFAULT_LAT, DEFAULT_LNG};
+export {map, loadMap, renderCards, resetMap, clearMarkers, DEFAULT_LAT, DEFAULT_LNG};
