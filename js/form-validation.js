@@ -108,8 +108,13 @@ const activatePriceSlider = () => {
     connect:'lower',
   });
 
-  priceSlider.noUiSlider.on('update', () => {
-    price.value = priceSlider.noUiSlider.get();
+  priceSlider.noUiSlider.on('slide', () => {
+    price.value = Number(priceSlider.noUiSlider.get());
+    pristine.validate();
+  });
+
+  price.addEventListener('change', (evt) => {
+    priceSlider.noUiSlider.set(Number(evt.target.value));
   });
 };
 

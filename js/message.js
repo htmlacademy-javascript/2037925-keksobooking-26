@@ -4,11 +4,15 @@ import {resetMap} from './map.js';
 const ALERT_SHOW_TIME = 5000;
 const DEFAULT_LAT = 35.6895;
 const DEFAULT_LNG = 139.692;
+const AVATAR_DEFAULT = 'img/muffin-grey.svg';
 
 const offerForm = document.querySelector('.ad-form');
 const mapFilterForm = document.querySelector('.map__filters');
 const addressField = document.querySelector('#address');
 const submitButton = offerForm.querySelector('.ad-form__submit');
+const priceSlider = document.querySelector('.ad-form__slider');
+const previewPhoto = document.querySelector('.ad-form__photo');
+const previewAvatar = document.querySelector('.ad-form-header__avatar');
 const successMessage = document.querySelector('#success')
   .content.querySelector('.success').cloneNode(true);
 const successFragmentElement = document.createDocumentFragment();
@@ -44,6 +48,9 @@ const getSuccessMessage = () => {
   offerForm.reset();
   mapFilterForm.reset();
   addressField.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
+  previewAvatar.src = AVATAR_DEFAULT;
+  previewPhoto.innerHTML = '';
+  priceSlider.noUiSlider.reset();
   submitButton.disabled = false;
 };
 
