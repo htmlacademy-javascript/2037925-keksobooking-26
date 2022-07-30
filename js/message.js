@@ -6,10 +6,20 @@ const DEFAULT_LAT = 35.6895;
 const DEFAULT_LNG = 139.692;
 const AVATAR_DEFAULT = 'img/muffin-grey.svg';
 
+const typeOfHousingPrice = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalow: 0,
+  hotel: 3000
+};
+
 const offerForm = document.querySelector('.ad-form');
 const mapFilterForm = document.querySelector('.map__filters');
 const addressField = document.querySelector('#address');
 const submitButton = offerForm.querySelector('.ad-form__submit');
+const price = offerForm.querySelector('#price');
+const typeOfHousing = document.querySelector('#type');
 const priceSlider = document.querySelector('.ad-form__slider');
 const previewPhoto = document.querySelector('.ad-form__photo');
 const previewAvatar = document.querySelector('.ad-form-header__avatar');
@@ -50,6 +60,7 @@ const getSuccessMessage = () => {
   addressField.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
   previewAvatar.src = AVATAR_DEFAULT;
   previewPhoto.innerHTML = '';
+  price.placeholder = typeOfHousingPrice[typeOfHousing.value];
   priceSlider.noUiSlider.reset();
   submitButton.disabled = false;
 };
