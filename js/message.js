@@ -1,11 +1,12 @@
-import {map} from './map.js';
 import {isEscapeKey} from './utils.js';
+import {resetMap} from './map.js';
 
 const ALERT_SHOW_TIME = 5000;
 const DEFAULT_LAT = 35.6895;
 const DEFAULT_LNG = 139.692;
 
 const offerForm = document.querySelector('.ad-form');
+const mapFilterForm = document.querySelector('.map__filters');
 const addressField = document.querySelector('#address');
 const submitButton = offerForm.querySelector('.ad-form__submit');
 const successMessage = document.querySelector('#success')
@@ -39,8 +40,9 @@ const getSuccessMessage = () => {
   document.body.append(successFragmentElement);
   document.addEventListener('keydown', onPopupEscKeydown);
   document.addEventListener('click', onClickPopUpClose);
-  map.closePopup();
+  resetMap();
   offerForm.reset();
+  mapFilterForm.reset();
   addressField.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
   submitButton.disabled = false;
 };

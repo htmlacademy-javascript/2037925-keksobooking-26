@@ -1,8 +1,10 @@
 import {displayOffer} from './popup.js';
+import {getData} from './server-calls.js';
 
 const DEFAULT_LAT = 35.6895;
 const DEFAULT_LNG = 139.692;
 const DEFAULT_SCALE = 12;
+const MAX_OFFER_COUNT = 10;
 
 const address = document.querySelector('#address');
 
@@ -88,7 +90,6 @@ const clearMarkers = () => {
 
 const resetMap = () => {
   address.value = `${DEFAULT_LAT}, ${DEFAULT_LNG}`;
-
   mainMarker.setLatLng({
     lat: DEFAULT_LAT,
     lng: DEFAULT_LNG,
@@ -97,7 +98,10 @@ const resetMap = () => {
     lat: DEFAULT_LAT,
     lng: DEFAULT_LNG,
   }, DEFAULT_SCALE);
-
+  clearMarkers();
+  getData ((data)=> {
+    renderCards(data.slice(0, MAX_OFFER_COUNT));
+  });
   map.closePopup();
 };
 

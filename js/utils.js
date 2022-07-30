@@ -1,7 +1,5 @@
-import {resetMap, renderCards, clearMarkers} from './map.js';
-import {getData} from './server-calls.js';
+import {resetMap} from './map.js';
 
-const MAX_OFFER_COUNT = 10;
 const DEFAULT_LAT = 35.6895;
 const DEFAULT_LNG = 139.692;
 const AVATAR_DEFAULT = 'img/muffin-grey.svg';
@@ -35,10 +33,6 @@ const resetForm = (evt) => {
   previewPhoto.innerHTML = '';
   price.placeholder = typeOfHousingPrice[typeOfHousing.value];
   priceSlider.noUiSlider.reset();
-  clearMarkers();
-  getData ((data)=> {
-    renderCards(data.slice(0, MAX_OFFER_COUNT));
-  });
 };
 
 fullResetButton.addEventListener('click', resetForm);
